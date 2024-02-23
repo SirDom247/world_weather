@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Weather Conditions</title>
+    <link href="{{ url_for('static', filename='styles/style.css')}}" rel="stylesheet" />
+</head>
+<body>
+    <h1 id="heading">World Weather Conditions</h1>
+
+    <!-- Embedding the map using an iframe -->
+    <div id="map-container">
+        <script>
+            // Retrieve the API key from the server-side code
+            var apiKey = "{{ key }}";
+    
+            // Retrieve the latitude and longitude from the server-side code
+            var latitude = "{{ latitude }}";
+            var longitude = "{{ longitude }}";
+    
+            // Construct the map URL with the API key and the center parameter
+            var mapUrl = "https://www.google.com/maps/embed/v1/view?key=AIzaSyDCxksQOZeT8W5QWaIBbTneWcH-TqsuC8M" + "&center=" + latitude + "," + longitude + "&zoom=12";
+    
+            // Embed the map using an iframe
+            document.write('<iframe id="map" width="850" height="500" frameborder="0" style="border:0, justify:center" src="' + mapUrl + '" allowfullscreen></iframe>');
+        </script>
+    </div>
+    
+    <div id="weather_data">
+        {% if status %}
+            <h3>{{ title }} Current Weather</h3>
+            <p>Status: {{ status }}</p>
+            <p>Temperature: {{ temp }}°C</p>
+            <p>Feels Like: {{ feels_like }}°C</p>
+            <p>Rain: {{ rain }} </p>
+            <p>Wind Speed: {{ wind_speed }} km/h</p>
+            <p>Wind Direction: {{ wind_direction }}°</p>
+            <p>Humidity: {{ humidity }}%</p>
+            <p>Visibility: {{ visibility }} km</p>
+            <p>Pressure: {{ pressure }} hPa</p>
+            <p>Latitude: {{ latitude }}</p>
+            <p>Longitude: {{ longitude }}</p>
+        
+        {% else %}
+            <p>Error retrieving weather data.</p>
+        {% endif %}
+    </div>
+    
+
+    <form action="/weather">
+        <input type="text" name="city" id="city" placeholder="Enter city name" required />
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>
